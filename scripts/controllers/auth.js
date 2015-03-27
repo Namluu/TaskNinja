@@ -22,8 +22,7 @@ app.controller('AuthController', function($scope, $location, Auth, toaster) {
 	};
 
 	$scope.changePassword = function(user) {
-		console.log('aaa');
-		/*Auth.changePassword(user)
+		Auth.changePassword(user)
 			.then(function() {
 				$scope.user.email = '';
 				$scope.user.oldPass = '';
@@ -33,6 +32,6 @@ app.controller('AuthController', function($scope, $location, Auth, toaster) {
 				$location.path('/');
 			}, function(err) {
 				toaster.pop('error', err.message);
-			});*/
+			});
 	};
 });
