@@ -6,7 +6,8 @@ var app = angular
     'ngResource',    
     'ngRoute',    
     'firebase',
-    'toaster'
+    'toaster',
+    'angularFileUpload'
   ])
   .constant('FURL', 'https://task-ninja-tom.firebaseio.com/')
   .config(function ($routeProvider) {

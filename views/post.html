@@ -1,12 +1,22 @@
 <div class="container">
-	<div class="row title">
-		<div class="col-md-6 col-md-offset-3">
-			<form ng-submit="postTask(task)">
-		      <input type="text" ng-model="task.title" class="form-control" placeholder="Task title" required><br>
-		      <textarea ng-model="task.description" class="form-control" placeholder="Describe what you need done" required></textarea><br>
-		      <input type="number" ng-model="task.total" class="form-control" placeholder="How much will you pay?" required><br>
-		      <input type="submit" value="Post" class="btn btn-warning">
-		    </form>
-		</div>
-	</div>	
+    <div class="row title">
+        <div class="col-md-6 col-md-offset-3">
+            <form ng-submit="postTask(task)">
+                <input type="text" ng-model="task.title" class="form-control" placeholder="Task title" required><br>
+                <textarea ng-model="task.description" class="form-control" placeholder="Describe what you need done" required></textarea><br>
+                <input type="number" ng-model="task.total" class="form-control" placeholder="How much will you pay?" required><br>
+                <input class="form-upload" type="file" ng-model="task.image" nv-file-select="" uploader="uploader" />
+                <span ng-repeat="item in uploader.queue">
+                    <button type="button" class="btn-xs btn-upload" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess"><span class="glyphicon glyphicon-upload"></span> Upload</button>
+
+                    <img ng-show="imgThumb" ng-src="uploads/{{ imgThumb }}" width="200">
+                </span>
+                <br>
+
+                <div class="clearfix wrap-btn">
+                    <input type="submit" value="Post" class="btn btn-warning">
+                </div>
+            </form>
+        </div>
+    </div>  
 </div>

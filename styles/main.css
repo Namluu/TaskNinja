@@ -147,3 +147,10 @@ a, a:hover, a:focus {
   width: 35px;
   margin-right: 5px;
 }
+
+.btn-upload, .form-upload {
+  float: left;
+}
+.wrap-btn {
+  clear: both;
+}
