@@ -35,15 +35,20 @@ app.controller('TaskController', function($scope, FURL, $firebase, $location, $r
 
 	
 	$scope.postTask = function(task) {
-		task.image = uploader.queue[0].file.name;
+
+		if (uploader.queue.length)
+			task.image = uploader.queue[0].file.name;
+
 		fbTasks.$add(task);
 		toaster.pop('success', 'Task is created');
 		$location.path('/browse');
 	}
 	
 	$scope.updateTask = function(task) {
-		if (uploader.queue[0].file.name && uploader.queue[0].file.name != $scope.selectedTask.image)
+
+		if (uploader.queue.length && uploader.queue[0].file.name != $scope.selectedTask.image)
 			task.image = uploader.queue[0].file.name;
+
 		$scope.selectedTask.$save(task);
 		toaster.pop('success', 'Task is updated');
 		$location.path('/browse');

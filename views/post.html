@@ -7,8 +7,13 @@
                 <input type="number" ng-model="task.total" class="form-control" placeholder="How much will you pay?" required><br>
                 <input class="form-upload" type="file" ng-model="task.image" nv-file-select="" uploader="uploader" />
                 <span ng-repeat="item in uploader.queue">
-                    <button type="button" class="btn-xs btn-upload" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess"><span class="glyphicon glyphicon-upload"></span> Upload</button>
-
+                    <button type="button" class="btn-xs btn-upload btn-success" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                        <span class="glyphicon glyphicon-upload"></span> Upload
+                    </button>
+                    <button type="button" class="btn-danger btn-upload btn-xs" ng-click="item.remove()">
+                        <span class="glyphicon glyphicon-trash"></span> Remove
+                    </button>
+                    <br>
                     <img ng-show="imgThumb" ng-src="uploads/{{ imgThumb }}" width="200">
                 </span>
                 <br>
