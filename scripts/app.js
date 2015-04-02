@@ -7,18 +7,19 @@ var app = angular
     'ngRoute',    
     'firebase',
     'toaster',
-    'angularFileUpload'
+    'angularFileUpload',
+    'angularMoment'
   ])
   .constant('FURL', 'https://task-ninja-tom.firebaseio.com/')
   .config(function ($routeProvider) {
     $routeProvider      
       .when('/', {
         templateUrl: 'views/browse.html',
-        controller: 'TaskController'
+        controller: 'BrowseController'
       })
-      .when('/browse', {
+      .when('/browse/:taskId', {
         templateUrl: 'views/browse.html',
-        controller: 'TaskController'
+        controller: 'BrowseController'
       })
       .when('/register', {
         templateUrl: 'views/register.html',
