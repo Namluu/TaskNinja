@@ -28,4 +28,5 @@ app.controller('TaskController', function($scope, $location, toaster, Task, Auth
 			toaster.pop('success', "Task is updated.");
 		});
 	};
+
 });
