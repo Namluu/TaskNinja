@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('BrowseController', function($scope, $routeParams, toaster, Task, Auth, Comment) {
+app.controller('BrowseController', function($scope, $routeParams, toaster, Task, Auth, Comment, Offer) {
 
 	$scope.searchTask = '';		
 	$scope.tasks = Task.all;
@@ -10,28 +10,32 @@ app.controller('BrowseController', function($scope, $routeParams, toaster, Task,
 	
 	if($routeParams.taskId) {
 		var task = Task.getTask($routeParams.taskId).$asObject();
-		/*task.$loaded().then(function (data) {
-			console.log(Object.keys(data));
-			console.log(data.name);
-		});*/
 		$scope.listMode = false;
 		setSelectedTask(task);
 	}
 
 	function setSelectedTask(task) {
 		$scope.selectedTask = task;
-		
 		// We check isTaskCreator only if user signedIn 
 		// so we don't have to check every time normal guests open the task
 		if($scope.signedIn()) {
 			// Check if the current login user is the creator of selected task
-			task.$loaded().then(function (data) {
-				$scope.isTaskCreator = Task.isCreator(data);
-				$scope.isOpen = Task.isOpen(data);
+			$scope.isTaskCreator = Task.isCreator;
+			$scope.isOpen = Task.isOpen;
+
+			Offer.isOfferred(task.$id).then(function(data) {
+				$scope.alreadyOffered = data;
 			});
+
+			// Unblock the Offer button on Offer modal
+			$scope.block = false;
+
+			// Check if the current login user is offer maker (to display Cancel Offer button)
+			$scope.isOfferMaker = Offer.isMaker;
 		}
 
 		$scope.comments = Comment.comments(task.$id);
+		$scope.offers = Offer.offers(task.$id);
 	};
 
 	// --------------- TASK ---------------	
@@ -41,6 +45,8 @@ app.controller('BrowseController', function($scope, $routeParams, toaster, Task,
 			toaster.pop('success', "This task is cancelled successfully.");
 		});
 	};
+
+	// --------------- COMMENT ---------------
 
 	$scope.addComment = function() {
 		var comment = {
@@ -52,4 +58,39 @@ app.controller('BrowseController', function($scope, $routeParams, toaster, Task,
 			$scope.content = '';
 		});
 	}
+
+	// --------------- OFFER ---------------
+
+	$scope.makeOffer = function() {
+		var offer = {
+			total: $scope.total,
+			uid: $scope.user.uid,
+			name: $scope.user.profile.name,
+			gravatar: $scope.user.profile.gravatar 
+		};
+
+		Offer.makeOffer($scope.selectedTask.$id, offer).then(function() {
+			toaster.pop('success', "Your offer has been placed.");
+			
+			// Mark that the current user has offerred for this task.
+			$scope.alreadyOffered = true;
+			
+			// Reset offer form
+			$scope.total = '';
+
+			// Disable the "Offer Now" button on the modal
+			$scope.block = true;
+		});		
+	};
+	$scope.cancelOffer = function(offerId) {
+		Offer.cancelOffer($scope.selectedTask.$id, offerId).then(function() {
+			toaster.pop('success', "Your offer has been cancelled.");
+
+			// Mark that the current user has cancelled offer for this task.
+			$scope.alreadyOffered = false;
+
+			// Unblock the Offer button on Offer modal
+			$scope.block = false;
+		});
+	};
 });

@@ -60,7 +60,7 @@
 				<div class="col-md-4 title">
 					<div class="price-tag">
 						${{ selectedTask.total }}
-						<div ng-show="isTaskCreator && isOpen">
+						<div ng-show="isTaskCreator(selectedTask) && isOpen(selectedTask)">
 							<div class="btn-group">
 							    <a href="" class="btn btn-warning">Admin</a>
 							    <a href="" class="btn btn-warning dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
@@ -71,7 +71,9 @@
 							    </ul>
 							</div>
 						</div>
-
+						<div ng-show="!isTaskCreator(selectedTask) && isOpen(selectedTask) && !alreadyOffered">
+							<button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#offModal">Make an Offer</button>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -91,8 +93,33 @@
 					</div>
 				</div>
 			</div>
+
+			<!-- OFFERS -->			
+			<div class="row">
+				<div class="col-md-12">
+					<div class="panel panel-default">
+					    
+					    <div class="panel-heading">
+					        <h3 class="panel-title">Offers</h3>
+					    </div>
+					    
+					    <div class="panel-body">
+							<div class="title" ng-hide="offers && offers.length > 0">
+								<span>No offer for this task yet</span>	
+							</div>
+							<div class="row" ng-repeat="offer in offers">
+								<div class="col-md-10">
+									<button ng-show="isOfferMaker(offer) && isOpen(selectedTask)" class="btn btn-danger btn-xs" ng-click="cancelOffer(offer.$id)">Cancel My Offer - ${{offer.total}}</button>
+
+									<img ng-src="{{offer.gravatar}}" class="img-circle offer gravatar">
+									<span>{{offer.name}}</span>
+								</div>
+							</div>
+					    </div>
+					</div>
+				</div>
+			</div>
 			
-			<br>
 			<!-- COMMENTS -->
 			<div class="row">
 				<div class="col-md-12">
@@ -144,3 +171,4 @@
 </div>
 
 <div ng-include="'views/partials/edit.html'"></div>
+<div ng-include="'views/partials/offer.html'"></div>
