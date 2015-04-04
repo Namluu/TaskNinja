@@ -32,6 +32,9 @@ app.controller('BrowseController', function($scope, $routeParams, toaster, Task,
 
 			// Check if the current login user is offer maker (to display Cancel Offer button)
 			$scope.isOfferMaker = Offer.isMaker;
+
+			$scope.isAssignee = Task.isAssignee;
+			$scope.isCompleted = Task.isCompleted;
 		}
 
 		$scope.comments = Comment.comments(task.$id);
@@ -82,6 +85,7 @@ app.controller('BrowseController', function($scope, $routeParams, toaster, Task,
 			$scope.block = true;
 		});		
 	};
+	
 	$scope.cancelOffer = function(offerId) {
 		Offer.cancelOffer($scope.selectedTask.$id, offerId).then(function() {
 			toaster.pop('success', "Your offer has been cancelled.");
@@ -93,4 +97,17 @@ app.controller('BrowseController', function($scope, $routeParams, toaster, Task,
 			$scope.block = false;
 		});
 	};
+
+	$scope.acceptOffer = function(offerId, runnerId) {
+		Offer.acceptOffer($scope.selectedTask.$id, offerId, runnerId).then(function() {
+			toaster.pop('success', "Offer is accepted");
+		});
+	};
+
+	$scope.completeTask = function(taskId) {
+		Task.completeTask(taskId).then(function() {
+			toaster.pop('success', "You have completed this task");
+		});
+	};
+
 });
