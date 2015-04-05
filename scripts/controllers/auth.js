@@ -15,7 +15,7 @@ app.controller('AuthController', function($scope, $location, Auth, toaster) {
 		Auth.login(user)
 			.then(function() {
 				toaster.pop('success', 'Loggin successfully');
-				$location.path('/');
+				$location.path('/dashboard');
 			}, function(err) {
 				toaster.pop('error', err.message);
 			});

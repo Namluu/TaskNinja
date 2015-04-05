@@ -18,6 +18,9 @@ app.factory('Auth', function(FURL, $firebaseAuth, $firebase) {
 			var profileRef = $firebase(ref.child('profile'));
 			return profileRef.$set(uid, profile);
 		},
+    getProfile: function(uid) {
+      return $firebase(ref.child('profile').child(uid)).$asObject();
+    },
 		login: function(user) {
 			return auth.$authWithPassword({
 				email: user.email,
