@@ -1,0 +1,9 @@
+{
+  "firebase": "task-ninja-tom",
+  "public": ".",
+  "ignore": [
+    "firebase.json",
+    "**/.*",
+    "**/node_modules/**"
+  ]
+}
